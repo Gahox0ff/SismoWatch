@@ -1,0 +1,43 @@
+name: ci-cd
+on:
+  push:
+    branches: [main]
+
+env:
+  ACR: ${{ secrets.ACR_NAME }}
+  RG: rg-sismowatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r api/requirements.txt pytest
+      - run: cd api && pytest -q
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.ACR_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - name: Build y push
+        run: |
+          docker build -t $ACR.azurecr.io/sismowatch-api:${{ github.sha }} ./api
+          docker build --build-arg API_URL=${{ secrets.API_URL }} -t $ACR.azurecr.io/sismowatch-frontend:${{ github.sha }} ./frontend
+          docker push $ACR.azurecr.io/sismowatch-api:${{ github.sha }}
+          docker push $ACR.azurecr.io/sismowatch-frontend:${{ github.sha }}
+      - uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Desplegar
+        run: |
+          az containerapp update -n ca-api -g $RG --image $ACR.azurecr.io/sismowatch-api:${{ github.sha }}
+          az containerapp update -n ca-frontend -g $RG --image $ACR.azurecr.io/sismowatch-frontend:${{ github.sha }}
