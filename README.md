@@ -207,7 +207,3 @@ Las pruebas verifican el estado de salud, el filtrado por magnitud, la validaci�
 - Datos sísmicos: USGS Earthquake Hazards Program (información pública del Gobierno de los Estados Unidos).
 - Mapas base: © colaboradores de OpenStreetMap; imágenes y mapas base de Esri. Cumplir sus términos de uso en producción.
 - Cartografía interactiva: [Leaflet](https://leafletjs.com/).
-
-## 17. Autor
-
-Guillermo Antonio Hernández Ortiz — Ingeniería de Telecomunicaciones, Universidad Militar Nueva Granada (UMNG).
