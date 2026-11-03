@@ -2,8 +2,7 @@
 <p align="center"><b>Monitoreo sísmico global en tiempo real, diseñado para la nube</b></p>
 
 <p align="center">
-  <a href="http://sismowatch.eastus.cloudapp.azure.com/"><b>▶ Servicio en producción</b></a> (HTTP) ·
-  <a href="../../actions/workflows/ci-cd.yml"><img alt="CI/CD" src="../../actions/workflows/ci-cd.yml/badge.svg"></a>
+  <a href="http://sismowatch.eastus.cloudapp.azure.com/"><b>▶ Servicio en producción</b></a> (HTTP)>
 </p>
 
 ---
