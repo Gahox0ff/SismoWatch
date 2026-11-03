@@ -1,8 +1,3 @@
-
-<p align="center">
-  <img src="docs/img/logo.png" alt="Logo de SismoWatch" width="220">
-</p>
-
 <h1 align="center">SismoWatch</h1>
 <p align="center"><b>Monitoreo sísmico global en tiempo real, diseñado para la nube</b></p>
 
