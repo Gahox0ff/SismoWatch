@@ -1,3 +1,4 @@
+![Uploading logo.png…]()
 <p align="center">
   <img src="docs/img/logo.png" alt="Logo de SismoWatch" width="220">
 </p>
