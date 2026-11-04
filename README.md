@@ -114,7 +114,7 @@ El navegador pide la página al contenedor `frontend` (Nginx); las peticiones a 
 
 ## 5. Cumplimiento de los principios de diseño nativo de la nube
 
-| Principio | Implementación | Estado |
+| Principio | Implementación |
 |---|---|---|
 | Microservicios | Dos servicios independientes (`frontend` y `api`) que se comunican por HTTP/JSON 
 | Contenedorización | Un `Dockerfile` por servicio; Docker Compose 
