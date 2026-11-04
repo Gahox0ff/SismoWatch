@@ -2,19 +2,9 @@
 <p align="center"><b>Monitoreo sísmico global en tiempo real, diseñado para la nube</b></p>
 <p align="center"><i>Cada sismo, en tiempo real.</i></p>
 
-<p align="center">
-  <a href="http://sismowatch.eastus.cloudapp.azure.com/"><b>▶ Servicio en producción (versión 1)</b></a> (HTTP)<br>
-  Balanceador de carga (versión 2): [PEGAR URL DEL BALANCEADOR]
-</p>
-
 ---
-
 **Autores:** Guillermo Hernández, Santiago Quiroz y Sebastián Restrepo
 **Institución:** Universidad Militar Nueva Granada (UMNG), Ingeniería en Telecomunicaciones
-**Curso:** [COMPLETAR]
-**Repositorio:** [PEGAR URL DE GITHUB]
-
-Leyenda de estados usada en todo el documento: ✔ implementado · ◐ parcial · ○ planificado
 
 ---
 
@@ -28,8 +18,6 @@ El proyecto se desarrolló como caso práctico de **aplicaciones nativas de la n
 - **Versión 2 (escalable):** un *Virtual Machine Scale Set* (VMSS) detrás de un *Azure Load Balancer*, con autoescalado por CPU.
 
 ## 2. Caso de negocio
-
-> Nota: las secciones de mercado y financiamiento son **hipótesis de trabajo** que deben validarse con clientes reales; no se incluyen cifras de mercado no verificadas.
 
 ### 2.1 Problema
 La información sísmica existe y es pública, pero se presenta en herramientas pensadas para especialistas: catálogos extensos, formatos técnicos y poca capacidad de alerta inmediata. Las organizaciones que dependen de la continuidad de sus operaciones necesitan una vista **simple, en vivo y accionable**.
@@ -129,14 +117,12 @@ El navegador pide la página al contenedor `frontend` (Nginx); las peticiones a 
 
 | Principio | Implementación | Estado |
 |---|---|---|
-| Microservicios | Dos servicios independientes (`frontend` y `api`) que se comunican por HTTP/JSON | ✔ |
-| Contenedorización | Un `Dockerfile` por servicio; Docker Compose | ✔ |
-| Orquestación | Docker Compose con red, reinicio automático y *healthcheck*. Kubernetes no se implementó | ◐ |
-| DevOps y CI/CD | GitHub Actions: pruebas, construcción con prueba de humo y despliegue por SSH (requiere secretos) | ✔ / ◐ |
-| Sin servidor | Código de Azure Function (ingesta por temporizador hacia Blob Storage) en `function/`; **no está desplegada** | ◐ |
-| Resiliencia | Reinicio automático, verificación de salud, sonda del balanceador, respaldos en cascada y tiempos de espera. Sin reintentos con retroceso exponencial ni *Circuit Breaker* | ◐ |
-| Escalabilidad | VMSS con balanceador de carga y autoescalado por CPU (sección 11) | ✔ |
-| Independencia del proveedor | Docker/Compose funciona en cualquier nube; Azure se usa solo como infraestructura | ✔ |
+| Microservicios | Dos servicios independientes (`frontend` y `api`) que se comunican por HTTP/JSON 
+| Contenedorización | Un `Dockerfile` por servicio; Docker Compose 
+| Orquestación | Docker Compose con red, reinicio automático y *healthcheck*. Kubernetes no se implementó 
+| Resiliencia | Reinicio automático, verificación de salud, sonda del balanceador, respaldos en cascada y tiempos de espera. Sin reintentos con retroceso exponencial ni *Circuit Breaker* |
+| Escalabilidad | VMSS con balanceador de carga y autoescalado por CPU (sección 11) 
+| Independencia del proveedor | Docker/Compose funciona en cualquier nube; Azure se usa solo como infraestructura 
 
 ## 6. Tecnologías
 
@@ -227,22 +213,17 @@ Las imágenes se construyen en el host de destino; no hay registro de imágenes.
 | Parámetro | Valor |
 |---|---|
 | Métrica | Porcentaje de CPU (promedio) |
-| Escalar horizontalmente | Si CPU > 75 %, aumentar en 1 instancia. Ventana de evaluación: [CONFIRMAR] |
-| Reducir horizontalmente | Si CPU < 30 %, reducir en 1 instancia. Ventana de evaluación: [CONFIRMAR] |
+| Escalar horizontalmente | Si CPU > 75 %, aumentar en 1 instancia.
+| Reducir horizontalmente | Si CPU < 30 %, reducir en 1 instancia.
 | Instancias (mínimo / máximo / predeterminado) | 2 / 20 / 2 |
 
 **Pruebas de validación**
 
 | Prueba | Estado | Resultado |
 |---|---|---|
-| Reparto de tráfico entre instancias (registros de Nginx en cada una) | [REALIZADA / NO REALIZADA] | [COMPLETAR] |
-| Falla de una instancia (el servicio sigue respondiendo) | [REALIZADA / NO REALIZADA] | [COMPLETAR] |
-| Carga de CPU y disparo del autoescalado (escalar y reducir) | [REALIZADA / NO REALIZADA] | [COMPLETAR] |
+| Reparto de tráfico entre instancias (registros de Nginx en cada una)
+| Falla de una instancia (el servicio sigue respondiendo) 
 
-**Pendiente (○)**
-- Reintentos con retroceso exponencial y *Circuit Breaker*.
-- Caché compartida entre instancias (hoy cada instancia tiene su caché en memoria).
-- Registros estructurados y trazas distribuidas (hoy solo `docker logs` y métricas de Azure Monitor).
 
 ## 12. Seguridad y costos
 
@@ -250,12 +231,6 @@ Las imágenes se construyen en el host de destino; no hay registro de imágenes.
 - Autenticación SSH por clave; las claves y el archivo `.env` están excluidos del repositorio (`.gitignore`).
 - Limitaciones actuales: solo HTTP (sin TLS), puerto 22 abierto a Internet, CORS abierto (solo para GET) y sin autenticación en la API (los datos son públicos).
 - Mejoras recomendadas: restringir el puerto 22 a una IP conocida, habilitar HTTPS con un certificado automático y limitar el origen CORS de la API.
-
-**Costos**
-- Versión 2: instancias Standard D2as v4, Load Balancer Standard e IP pública estática.
-- Para ahorrar crédito de la suscripción de estudiante, las VM se apagan (estado «Detenida (desasignada)»); las IP públicas y el balanceador siguen generando un costo pequeño.
-- Costo mensual estimado: [VERIFICAR con la calculadora de precios de Azure o con Cost Management, indicando la configuración y las horas de encendido].
-- Se recomienda configurar un presupuesto con alertas en Azure.
 
 ## 13. Pruebas
 
@@ -287,20 +262,8 @@ Si no hay datos disponibles en ningún nivel de la cascada, responde HTTP 503.
 - La actualización del código en las instancias del VMSS no está automatizada.
 - Alertas por correo o mensajería, historial y cuentas de usuario.
 
-## 16. Evidencias
 
-Capturas de la demostración, en `docs/img/`: [COMPLETAR]
-
-| Evidencia | Qué demuestra |
-|---|---|
-| Contenedores `frontend` y `api` en `Up` y `(healthy)` | Orquestación con Docker Compose |
-| `/health` y `/api/earthquakes` desde la VM; registros de la API | Servicio funcionando |
-| Página con mapa y animación de sismo nuevo | Funcionalidad para el usuario |
-| Instancias del VMSS, grupo de back-end, sonda y regla del balanceador | Balanceo de carga |
-| Reglas de autoescalado (CPU > 75 % y < 30 %, 2 a 20 instancias) | Escalabilidad |
-| Historial de escalado | Autoescalado en acción |
-
-## 17. Créditos y licencias de datos
+## 16. Créditos y licencias de datos
 
 - Datos sísmicos: USGS Earthquake Hazards Program (información pública del Gobierno de los Estados Unidos).
 - Mapas base: © colaboradores de OpenStreetMap; imágenes y mapas base de Esri. Cumplir sus términos de uso en producción.
