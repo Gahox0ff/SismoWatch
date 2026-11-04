@@ -218,8 +218,8 @@ Las imágenes se construyen en el host de destino; no hay registro de imágenes.
 
 **Pruebas de validación**
 
-| Prueba | Estado | Resultado |
-|---|---|---|
+| Prueba | Estado |
+|---|---|
 | Reparto de tráfico entre instancias (registros de Nginx en cada una)
 | Falla de una instancia (el servicio sigue respondiendo) 
 
