@@ -4,7 +4,6 @@
 
 ---
 **Autores:** Guillermo Hernández, Santiago Quiroz y Sebastián Restrepo
-**Institución:** Universidad Militar Nueva Granada (UMNG), Ingeniería en Telecomunicaciones
 
 ---
 
